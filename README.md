@@ -10,6 +10,7 @@ Install into virtualenv
 $ git clone https://github.com/dongpoliu/DjangoSitePdf.git
 ```
 
+$ pip install -r requirements.txt
 $ python setup.py install
 
 ```
