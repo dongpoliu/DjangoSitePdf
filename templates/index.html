@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="home-content">
+<div class="row-fluid">
+    <div class="span12 jumbotron mast-head">
+        <h1>Web Site to share Chinese Picture Books</h1>
+        <a href="{% if user.is_authenticated %}{% url 'pdfdocument_home' %}{% else %}{% url 'registration_register' %}{% endif %}" class="btn btn-danger register-button btn-large"> Register Now <i class="icon-double-angle-right"></i></a> 
+    </div>
+</div>
+<div class="row-fluid">
+<div class="marketing marketing-head">
+    <h2>What you will get here?</h2>
+        <a href="{% url 'page_about' %}" class="btn btn-success btn-large"><i class="icon-info"></i> Know More</a>
+        <a href="{% if user.is_authenticated %}{% url 'pdfdocument_home' %}{% else %}{% url 'registration_register' %}{% endif %}" class="btn btn-danger register-button btn-large"> Register Now <i class="icon-double-angle-right"></i></a> 
+        </div>
+
+    </div>
+</div>
+</div>
+{% endblock %}
+

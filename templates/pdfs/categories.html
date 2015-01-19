@@ -1,0 +1,13 @@
+{% load active from pdf %}
+
+    <a class="btn btn-danger btn-block" title="Add new Chinese Picture Book that you want to share" href="{% url 'pdfdocument_create' %}"><i class="icon-plus"></i> Add New Chinese Picture Book</a>
+    {% if user.is_staff %}
+    <a href="{% url 'category_create' %}" class="btn btn-block"><i class="icon-reorder"></i> Add New Category</a>
+    {% endif %}
+<ul class="nav nav-list">
+    <li class="nav-header">Categories</li>
+    {% for category in categories %}
+    <li class="{% active request.path category.get_absolute_url %}"><a
+    title="{{ category.help_text }}" href="{{ category.get_absolute_url }}">{{ category.name }}</a></li>
+    {% endfor %}
+</ul>

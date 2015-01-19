@@ -1,0 +1,27 @@
+{% load age website issaved from pdf %}
+
+<li class="span6 thumbnail resource">
+    <span class="badge pull-right badge-{{ pdfdocument.pdfdocument_type.color }}">{{ pdfdocument.pdfdocument_type }}</span>
+    <h4><a href="{{ pdfdocument.url }}">{{ pdfdocument.name }}</a> <small>{{ pdfdocument.url|website }}</small></h4>
+    <p><small>submitted  {{ pdfdocument.created_at|age  }} by <a href="{{ pdfdocument.created_by.get_absolute_url }}">{{ pdfdocument.created_by }}</a> in 
+    {% for category in pdfdocument.categories.all %}
+    {% if not forloop.first %}, {% endif %}<a href="{% url 'pdfdocument_category_home' slug=category.slug %}" class="">{{ category.name }}</a>
+    {% endfor %}</small>
+    </p>
+    <hr style="margin:9px 0"/>
+    <p class="resource-help-text">{{ pdfdocument.help_text }} <a href="{{ pdfdocument.get_absolute_url }}">... Details</a></p>
+
+    {% if user.is_authenticated %}
+    <a href="{% url 'pdfdocument_save' pk=pdfdocument.pk %}" title="Save this book to your profile" class="btn btn-info btn-small {% if pdfdocument|issaved:user %}disabled{% endif %}"><i class="icon-save"></i> {% if pdfdocument|issaved:user %}Saved{% else %}Save{% endif %}</a>
+
+    {% include "pdfs/rating.html" %}
+
+    {% ifequal pdfdocument.created_by user %}<a href="{% url 'pdfdocument_update' pk=pdfdocument.id %}" class="btn btn-small"><i class="icon-edit"></i> Edit</a>{% endifequal %}
+
+        {% if user.is_staff and current_category %}
+        <a href="{% url 'pdfdocument_feature' pk=pdfdocument.id slug=current_category.slug %}" class="btn btn-small {% if pdfdocument.check_featured %}btn-inverse disabled{% endif %}"><i class="icon-fire"></i></a>
+        {% endif %}
+    {% else %}
+    <a href="{% url 'auth_login' %}?next={{ request.path }}" class="btn btn-small"><i class="icon-info"></i> Login to rate or save this book</a>
+    {% endif %}
+</li>

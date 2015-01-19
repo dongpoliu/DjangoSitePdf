@@ -1,0 +1,26 @@
+{% extends "explore/base.html" %}
+{% load url from future %}
+
+{% block head_title %}Categories popularity according to books submitted and followed by user{% endblock %}
+{% block explore_content %}
+<div class="row-fluid">
+    <div class="span7 offset2 explore-box">
+        <h3>{{ headline }}</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Category</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for category in popular_categories %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></td>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

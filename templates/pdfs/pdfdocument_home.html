@@ -1,0 +1,43 @@
+{% extends "pdfs/base.html" %}
+
+{% block head_title %}pdfs - Select a Category to start learning{% endblock %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block resource_page %}
+<div class="row-fluid">
+    <div class="span12">
+        <div class="span7">
+            <h3>Select a Category to start learning</h3>
+            <hr />
+        </div>
+        <div class="span5">
+            <a href="{% url 'pdfdocument_create' %}" id="resource-add-button"
+            class="btn btn-danger pull-right" title="Add new Chinese Picture Book that you want to share" ><i class="icon-plus"></i> Add new Chinese Picture Book</a>
+        </div>
+    </div>
+    <div class="span12 explore-box">
+            {% for category in categories %}
+            <article class="span2 topic">
+                <a title="{{ category.help_text|slice:":120" }}" href="{{ category.get_absolute_url }}">
+                    <div class="topic-name">
+                            <span>{{ category.name }}</span>
+                    </div>
+                    <div class="topic-image">
+                    {% if category.thumbnail %}
+                            <img src="{{ category.thumbnail.url }}" alt="{{ category.name }}" />
+                    {% else %}
+                    <img src="{{ STATIC_URL }}img/topic.png" alt="{{ category.name }} image" />
+                    {% endif %}
+                    </div>
+                </a>
+            </article>
+            {% endfor %}
+    </div>
+</div>
+<div class="row-fluid">
+    <p class="muted disclaimer">Disclaimer: Above images are used just for illustrative purposes. Category logos are trademarks of their respective companies and organizations.</p>
+    <p>Subscribe for Updates: <a class="btn btn-small" href="{#% url 'resource_feed_rss' %#}"><i class="icon-rss"></i> Rss</a> <a class="btn btn-small" href="{#% url 'resource_feed_atom' %#}"><i class="icon-rss-sign"></i> Atom</a></p>
+</div>
+{% endblock %}

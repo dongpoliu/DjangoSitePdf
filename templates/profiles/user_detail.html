@@ -1,0 +1,24 @@
+{% extends "profiles/base.html" %}
+{% load markup %}
+
+{% block meta_description %}{{ userinfo.get_full_name }} - {{ userinfo.userprofile.bio }}{% endblock %}
+
+{% block profile_content %}
+<div class="span12" id="user-info">
+    {{ userinfo.userprofile.bio|markdown:"safe"|default:"Bio not provided" }}
+</div>
+<div class="row-fluid">
+    <div class="span7">
+        <h3>Saved Books:</h3>
+        {% for saved_pdfdocument in saved_pdfdocuments %}
+        <p><a href="{{ saved_pdfdocument.pdfdocument.get_absolute_url }}">{{ saved_pdfdocument.pdfdocument.title }}</a></p>
+        {% endfor %}
+    </div>
+    <div class="span4 offset1">
+        <h3>Categories Followed:</h3>
+        {% for category_follow in categories_follow %}
+        <p><a href="{{ category_follow.category.get_absolute_url }}">{{ category_follow.category.name }}</a></p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
