@@ -44,12 +44,6 @@ urlpatterns += patterns('django.contrib.flatpages.views',
     url(r'^license/$', 'flatpage', {'url': '/license/'}, name='page_license'),
 )
 
-#add restful framework part
-urlpatterns += [
-    url(r'^pdfs/$', views.pdf_list),
-    url(r'^pdf/(?P<pk>[0-9]+)/$', views.pdf_detail),
-]
-
 urlpatterns += patterns('',
     (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 )

@@ -37,3 +37,8 @@ urlpatterns = patterns('',
 )
 
 
+#add restful framework part
+urlpatterns += [
+    url(r'^pdfs/$', pdf_list),
+    url(r'^pdf/(?P<pk>[0-9]+)/$', pdf_detail),
+]
