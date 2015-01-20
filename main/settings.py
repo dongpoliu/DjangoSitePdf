@@ -35,7 +35,6 @@ INSTALLED_APPS = (
     'widget_tweaks',
     'guardian',
     'pdf',
-    #'accounts',
     'registration',
     'profiles',    
     'main',

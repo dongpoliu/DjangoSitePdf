@@ -4,15 +4,22 @@ from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
 from .views import *
 from profiles.views import UserUpdateView, UserProfileUpdateView
-from django.contrib import admin
+
 from profiles.models import UserProfile
 from django.views.generic import RedirectView
 from .sitemaps import sitemaps
 from pdf.models import PDFDocument, Category
 from pdf import views
 from django.contrib.auth.models import User
-#from rest_framework import routers, serializers, viewsets
 
+from rest_framework import routers
+from api import views
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
+router.register(r'categories', views.CategoryViewSet)
+router.register(r'pdfs', views.PDFDocumentViewSet)
+
+from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -26,12 +33,14 @@ urlpatterns = patterns('',
     url(r'^accounts/settings/core/$', UserUpdateView.as_view(), name='user_update'),
     url(r'^accounts/settings/info/$', UserProfileUpdateView.as_view(), name='userprofile_update'),
     #url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api/', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),    
 )
 
 urlpatterns += patterns('',
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^pdfdocument/', include('pdf.urls')),
-    url(r'^pdfdocument/(?P<pk>\d+)/$', views.PDFDocumentDetailView.as_view(), name='pdfdocument_detail'),   
+    #url(r'^pdfdocument/(?P<pk>\d+)/$', views.PDFDocumentDetailView.as_view(), name='pdfdocument_detail'),   
     #url(r'^resource/', include('resources.urls')),
     url(r'^profile/', include('profiles.urls')),
     #url(r'^search/', include('haystack.urls')),
@@ -43,6 +52,7 @@ urlpatterns += patterns('django.contrib.flatpages.views',
     url(r'^guidelines/$', 'flatpage', {'url': '/guidelines/'}, name='page_guidelines'),
     url(r'^license/$', 'flatpage', {'url': '/license/'}, name='page_license'),
 )
+
 
 urlpatterns += patterns('',
     (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),

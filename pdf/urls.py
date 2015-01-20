@@ -35,10 +35,3 @@ urlpatterns = patterns('',
     url(r'^new/$', PDFDocumentCreateView.as_view(), name='pdfdocument_create'),
     url(r'^rate/(?P<object_id>\d+)/(?P<score>\d+)/$', login_required(rate_pdfdocument), name='pdfdocument_rate'),
 )
-
-
-#add restful framework part
-urlpatterns += [
-    url(r'^pdfs/$', pdf_list),
-    url(r'^pdf/(?P<pk>[0-9]+)/$', pdf_detail),
-]

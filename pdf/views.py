@@ -27,15 +27,6 @@ from profiles.models import SavedPDFDocument, CategoryFollow
 from .forms import PDFDocumentCreateForm, PDFDocumentUpdateForm, CategoryCreateForm, CategoryUpdateForm,PDFDocumentForm
 
 
-#add restful framework part
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
-from .models import PDFDocument
-from .serializers import PDFDocumentSerializer
-
-
 @login_required
 def doc_upload(request):
     if request.method == 'POST':
@@ -302,57 +293,3 @@ class CategoryUpdateView(PermissionRequiredMixin, SetHeadlineMixin, SidebarMixin
     render_403 = True
     return_403 = True
     headline = 'Edit Category'
-
-#add restful framework part
-class JSONResponse(HttpResponse):
-    """
-    An HttpResponse that renders its content into JSON.
-    """
-    def __init__(self, data, **kwargs):
-        content = JSONRenderer().render(data)
-        kwargs['content_type'] = 'application/json'
-        super(JSONResponse, self).__init__(content, **kwargs)
-
-@csrf_exempt
-def pdf_list(request):
-    """
-    List all code PDFDocument, or create a new PDFDocument.
-    """
-    if request.method == 'GET':
-        pdfdocuments = PDFDocument.objects.all()
-        serializer = PDFDocumentSerializer(pdfdocuments, many=True)
-        return JSONResponse(serializer.data)
-
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = PDFDocumentSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        return JSONResponse(serializer.errors, status=400)
-
-@csrf_exempt
-def pdf_detail(request, pk):
-    """
-    Retrieve, update or delete a code PDFDocument.
-    """
-    try:
-        pdfdocument = PDFDocument.objects.get(pk=pk)
-    except PDFDocument.DoesNotExist:
-        return HttpResponse(status=404)
-
-    if request.method == 'GET':
-        serializer = PDFDocumentSerializer(pdfdocument)
-        return JSONResponse(serializer.data)
-
-    elif request.method == 'PUT':
-        data = JSONParser().parse(request)
-        serializer = PDFDocumentSerializer(pdfdocument, data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JSONResponse(serializer.data)
-        return JSONResponse(serializer.errors, status=400)
-
-    elif request.method == 'DELETE':
-        pdfdocument.delete()
-        return HttpResponse(status=204)
