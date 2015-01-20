@@ -31,6 +31,8 @@ urlpatterns = patterns('',
 urlpatterns += patterns('',
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^pdfdocument/', include('pdf.urls')),
+    url(r'^pdfdocument/(?P<pk>\d+)/$', views.PDFDocumentDetailView.as_view(), name='pdfdocument_detail'),   
+    #url(r'^resource/', include('resources.urls')),
     url(r'^profile/', include('profiles.urls')),
     #url(r'^search/', include('haystack.urls')),
 )
@@ -44,8 +46,8 @@ urlpatterns += patterns('django.contrib.flatpages.views',
 
 #add restful framework part
 urlpatterns += [
-    url(r'^pdfs/$', views.pdfdocument_list),
-    url(r'^pdf/(?P<pk>[0-9]+)/$', views.pdfdocument_detail),
+    url(r'^pdfs/$', views.pdf_list),
+    url(r'^pdf/(?P<pk>[0-9]+)/$', views.pdf_detail),
 ]
 
 urlpatterns += patterns('',

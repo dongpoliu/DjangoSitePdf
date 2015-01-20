@@ -24,8 +24,8 @@ class RecentPDFDocumentsAtom(RecentPDFDocumentsRss):
 class CategoryRecentPDFDocumentsRss(Feed):
     description_template = "feeds/pdfdocuments.html"
 
-    def get_object(self, request, topic_slug):
-        return get_object_or_404(Category, slug=topic_slug)
+    def get_object(self, request, category_slug):
+        return get_object_or_404(Category, slug=category_slug)
 
     def title(self, obj):
         return "Recent pdfdocuments for %s" %obj.name

@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required, permission_required
 from .views import doc_detail,doc_list,doc_upload
 from django.conf.urls.static import static
 from django.conf import settings
-from pdf.models import Category, PDFDocument
 #from accounts.models import User
 
 from django.views.generic import RedirectView

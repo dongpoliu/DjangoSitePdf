@@ -28,7 +28,7 @@ class Category(models.Model):
     Represents a Category for Chinese Picture-Book
     """
     name = models.CharField(max_length=100, unique=True)
-    slug = models.SlugField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100)
     description = models.TextField(null=True, blank=True)
     thumbnail = models.ImageField(upload_to='categories', null=True, blank=True)
     help_text = models.CharField(max_length=255, null=True, blank=True)
@@ -49,7 +49,6 @@ class Category(models.Model):
         if self.description and not self.help_text:
             self.help_text = self.description.replace("\n", " ")[:220]
         super(Category, self).save(*args, **kwargs)
-
 
 class PDFDocumenttype(models.Model):
     name = models.CharField(max_length=60, unique=True)
@@ -73,10 +72,10 @@ class PDFDocument(models.Model):
     model for an uploaded PDF document.
     """
     name = models.CharField(max_length=60, unique=True)
-    slug = models.SlugField(max_length=255)
-    url = models.URLField(unique=True)
+    slug = models.SlugField(max_length=255,blank=True, default='')
+    #url = models.URLField(unique=True)
     help_text = models.CharField(max_length=255, null=True, blank=True)
-    categories = models.ForeignKey(Category)
+    categories = models.ManyToManyField(Category)
     description = models.TextField(null=True, blank=True)
     pdfdocument_type = models.ForeignKey(PDFDocumenttype)    
     created_by = models.ForeignKey(User,default='1')
@@ -88,6 +87,8 @@ class PDFDocument(models.Model):
     local_document = models.FileField(_("Local Document"), null=True, blank=True, upload_to=UPLOAD_PATH)
     pages = models.IntegerField(_("Number of Pages in Document"), null=True, blank=True)
     show = models.BooleanField(default=True)    
+    
+    #title = models.CharField(max_length=255, unique=True)
     
     # django restful framework part    
     #code = models.TextField()
@@ -102,7 +103,7 @@ class PDFDocument(models.Model):
         return self.name
     
     def get_absolute_url(self):
-        return reverse('pdfdocument_category_home', kwargs={'slug': self.slug})
+        return reverse('pdfdocument_detail', kwargs={'pk': self.id})
     
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -110,8 +111,7 @@ class PDFDocument(models.Model):
         if self.description and not self.help_text:
             self.help_text = self.description.replace("\n", " ")[:220]
         super(PDFDocument, self).save(*args, **kwargs)
-
-
+      
 class FeaturedPDFDocument(models.Model):                        
     category= models.ForeignKey(Category)
     pdfdocument_type = models.ForeignKey(PDFDocumenttype)

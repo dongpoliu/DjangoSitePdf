@@ -8,7 +8,7 @@ class PDFDocumenttypeAdmin(admin.ModelAdmin):
 
 
 class PDFDocumentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'thumbnail','local_document','pages')
+    list_display = ('name', 'slug', 'pages')
     prepopulated_fields = {'slug': ('name',)}
     list_filter = ('name',)
     search_fields = ('id', 'name', 'description',)

@@ -6,7 +6,7 @@ from django.core.exceptions import ImproperlyConfigured,ObjectDoesNotExist
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template import RequestContext
 from main.views import BaseView
-from pdf.models import Category, PDFDocument,PDFDocumenttype
+from pdf.models import Category, PDFDocument,PDFDocumenttype,FeaturedPDFDocument
 
 from collections import Counter
 from urlparse import urlparse
@@ -67,9 +67,9 @@ def pdfdocument_home(request):
     categories = Category.objects.filter(pdfdocument__name__isnull=False).distinct().order_by('name')
 
     #Check various session values for user details and show appropriate info
-    #if request.session.get('no_name', False):
-    #    messages.info(request, 'Please fill in your profile details by going to your account settings.')
-    #    request.session['no_name'] = False
+    if request.session.get('no_name', False):
+        messages.info(request, 'Please fill in your profile details by going to your account settings.')
+        request.session['no_name'] = False
 
     if request.session.get('no_category', False):
         messages.warning(request, 'It seems you are not following any category. Follow categories by clicking on it below and get personalized recommendations')
@@ -207,14 +207,14 @@ def category_home(request, slug):
 
     pdfdocumenttypes = []
     pdfdocument_types = PDFDocumenttype.objects.all().order_by('name')
-    #for pdfdocument_type in pdfdocument_types:
-        #try:
-            #result = FeaturedPDFDocument.objects.get(category=current_category, pdfdocument_type=pdfdocument_type)
-            #pdfdocumenttypes.append((result.pdfdocument_type.slug, result.pdfdocument))
-        #except FeaturedPDFDocument.DoesNotExist:
-            #result = current_category.pdfdocument_set.filter(pdfdocument_type=pdfdocument_type).order_by('-rating_votes')
-            #if len(result) > 0:
-                #pdfdocumenttypes.append((result[0].pdfdocument_type.slug, result[0]))
+    for pdfdocument_type in pdfdocument_types:
+        try:
+            result = FeaturedPDFDocument.objects.get(category=current_category, pdfdocument_type=pdfdocument_type)
+            pdfdocumenttypes.append((result.pdfdocument_type.slug, result.pdfdocument))
+        except FeaturedPDFDocument.DoesNotExist:
+            result = current_category.pdfdocument_set.filter(pdfdocument_type=pdfdocument_type).order_by('-rating_votes')
+            if len(result) > 0:
+                pdfdocumenttypes.append((result[0].pdfdocument_type.slug, result[0]))
     ctx['pdfdocumenttypes'] = SortedDict(pdfdocumenttypes)
 
     return render_to_response('pdfs/category_home.html', ctx, context_instance=RequestContext(request))
@@ -314,7 +314,7 @@ class JSONResponse(HttpResponse):
         super(JSONResponse, self).__init__(content, **kwargs)
 
 @csrf_exempt
-def pdfdocument_list(request):
+def pdf_list(request):
     """
     List all code PDFDocument, or create a new PDFDocument.
     """
@@ -332,7 +332,7 @@ def pdfdocument_list(request):
         return JSONResponse(serializer.errors, status=400)
 
 @csrf_exempt
-def pdfdocument_detail(request, pk):
+def pdf_detail(request, pk):
     """
     Retrieve, update or delete a code PDFDocument.
     """

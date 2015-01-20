@@ -31,6 +31,7 @@ INSTALLED_APPS = (
     'django.contrib.flatpages',
     'django.contrib.sitemaps',
     'djangoratings',
+    'disqus',
     'widget_tweaks',
     'guardian',
     'pdf',

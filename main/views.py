@@ -14,8 +14,8 @@ def popular_domains_mixin(number='more'):
     pdfdocuments = PDFDocument.objects.all()
     cnt = Counter()
     domains = []
-    for pdfdocument in pdfdocuments:
-        domains.append(urlparse(pdfdocument.url)[1])
+    #for pdfdocument in pdfdocuments:
+    #    domains.append(urlparse(pdfdocument.url)[1])
     for domain in domains:
         cnt[domain] += 1
     if number=='less':

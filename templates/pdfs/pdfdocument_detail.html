@@ -2,7 +2,7 @@
 
 {% load age issaved from pdf %}
 {% load disqus_tags %}
-{% load markup %}
+{% load markdown_deux_tags %}
 
 {% block meta_description %}{{ pdf.help_text }} - {{ pdfdocument.pdfdocument_type }} submitted by {{ pdfdocument.created_by }}{% endblock %}
 
@@ -25,7 +25,7 @@
                     {% if user.is_authenticated %}
 
                     <div class="btn-group">
-                        <a href="{% url 'pdfdocument_save' pk=pdfdocument.pk %}" title="Save this Chinese Picture Book to your %%profile" class="btn btn-small {% if %pdfdocument|issaved:user %}disabled{% endif %}"><i %class="icon-save"></i> {% if pdfdocument|issaved:user %}Saved{% else %}Save{% endif %}</a>
+                        <a href="{% url 'pdfdocument_save' pk=pdfdocument.pk %}" title="Save this Chinese Picture Book to your %%profile" class="btn btn-small {% if pdfdocument|issaved:user %}disabled{% endif %}"><i %class="icon-save"></i> {% if pdfdocument|issaved:user %}Saved{% else %}Save{% endif %}</a>
                         {% ifequal pdfdocument.created_by user%}
                         <a href="{% url 'pdfdocument_update' pk=pdfdocument.id %}" class="btn btn-small"><i class="icon-edit"></i> Edit</a>
                         {% endifequal %}
