@@ -6,4 +6,4 @@ from .models import PDFDocument
 class PDFSerializer(serializers.Serializer):
     class Meta:
         model = PDFDocument
-        fields = ('id', 'name', 'code', 'linenos', 'language', 'style')
+        fields = ('id', 'name', 'categories', 'created_by', 'thumbnail', 'pages')
