@@ -9,6 +9,9 @@ from profiles.models import UserProfile
 from django.views.generic import RedirectView
 from .sitemaps import sitemaps
 from pdf.models import PDFDocument, Category
+from pdf import views
+from django.contrib.auth.models import User
+#from rest_framework import routers, serializers, viewsets
 
 admin.autodiscover()
 
@@ -22,6 +25,7 @@ urlpatterns = patterns('',
     url(r'^explore/category/all/$', PopularCategoryListView.as_view(), name='explore_all_categories'),
     url(r'^accounts/settings/core/$', UserUpdateView.as_view(), name='user_update'),
     url(r'^accounts/settings/info/$', UserProfileUpdateView.as_view(), name='userprofile_update'),
+    #url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 )
 
 urlpatterns += patterns('',
@@ -37,6 +41,12 @@ urlpatterns += patterns('django.contrib.flatpages.views',
     url(r'^guidelines/$', 'flatpage', {'url': '/guidelines/'}, name='page_guidelines'),
     url(r'^license/$', 'flatpage', {'url': '/license/'}, name='page_license'),
 )
+
+#add restful framework part
+urlpatterns += [
+    url(r'^pdfs/$', views.pdfdocument_list),
+    url(r'^pdf/(?P<pk>[0-9]+)/$', views.pdfdocument_detail),
+]
 
 urlpatterns += patterns('',
     (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),

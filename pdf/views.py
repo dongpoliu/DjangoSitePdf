@@ -319,7 +319,7 @@ def pdfdocument_list(request):
     List all code PDFDocument, or create a new PDFDocument.
     """
     if request.method == 'GET':
-        pdfdocument = PDFDocument.objects.all()
+        pdfdocuments = PDFDocument.objects.all()
         serializer = PDFDocumentSerializer(pdfdocuments, many=True)
         return JSONResponse(serializer.data)
 
