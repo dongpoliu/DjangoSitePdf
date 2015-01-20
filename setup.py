@@ -23,5 +23,5 @@ setup(name='DjangoSitePdf',
     ],
     include_package_data = True,
     zip_safe = False,
-    install_requires = ['django', ]
+    install_requires = ['django', 'rest_framework',]
 )
