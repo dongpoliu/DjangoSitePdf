@@ -68,10 +68,12 @@
                                 <tr>
                                     <td>Date Submitted</td> <td>{{ pdfdocument.created_at|date:"D d M Y"  }}</td>
                                 </tr>
+                                {#% if pdfdocument.local_document %#}
                                 <tr>
                                     <td>Read it</td> 
-                                    <td><a href="{{ pdfdocument.local_document.url }}"> {{ pdfdocument.name }}</a></td>
+                                    <td> <a href="{{ pdfdocument.local_document_url|default_if_none:'#'  }}"> {{ pdfdocument.name }}</a></td>
                                 </tr>
+                                {#% endif %#}
                             </tbody>
                         </table>
                     </div>

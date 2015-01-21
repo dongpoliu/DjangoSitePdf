@@ -44,7 +44,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',  
+    #'django.middleware.csrf.CsrfResponseMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',    
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -76,6 +77,7 @@ USE_L10N  = True
 USE_TZ    = True
 TIME_ZONE = 'Asia/Shanghai'
 LANGUAGE_CODE = 'zh-CN'
+DEFAULT_CHARSET = 'UTF-8'
 SITE_ID   = 1
 LOCALE_PATHS  = (
     'locale',
@@ -123,6 +125,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.static',
+    'django.core.context_processors.csrf',
 )
 
 TEMPLATE_LOADERS = (

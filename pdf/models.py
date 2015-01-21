@@ -77,7 +77,7 @@ class PDFDocument(models.Model):
     rating = RatingField(range=5, weight=10, use_cookies=True, allow_delete=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False,default='2015-01-15')
     updated_at = models.DateTimeField(auto_now=True, editable=False)    
-        
+    
     thumbnail = models.ImageField(upload_to='PDFDocuments', null=True, blank=True)
     local_document = models.FileField(upload_to="uploads", null=True, blank=True)
     pages = models.IntegerField(_("Number of Pages in Document"), null=True, blank=True)
@@ -98,6 +98,11 @@ class PDFDocument(models.Model):
         if self.description and not self.help_text:
             self.help_text = self.description.replace("\n", " ")[:220]
         super(PDFDocument, self).save(*args, **kwargs)
+
+    @property    
+    def local_document_url(self):
+        if self.local_document and hasattr(self.local_document, 'url'):
+            return self.local_document.url         
       
 class FeaturedPDFDocument(models.Model):                        
     category= models.ForeignKey(Category)

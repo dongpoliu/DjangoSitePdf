@@ -273,6 +273,7 @@ class PDFDocumentCreateView(LoginRequiredMixin, SetHeadlineMixin, SidebarMixin, 
 class PDFDocumentUpdateView(LoginRequiredMixin, PermissionRequiredMixin, SetHeadlineMixin, SidebarMixin, UpdateView):
     form_class = PDFDocumentUpdateForm
     model = PDFDocument
+    template_name = 'pdfs/pdfdocument_form.html'    
     headline = 'Edit PDF'
     permission_required = 'pdfdocuments.change_pdfdocument'
     return_403 = True

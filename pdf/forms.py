@@ -9,7 +9,7 @@ from .models import PDFDocument,Category
 class PDFDocumentCreateForm(ModelForm):
     class Meta:
         model = PDFDocument
-        exclude = ('slug', 'help_text')
+        exclude = ('slug', 'help_text','created_by',)
 
 class PDFDocumentUpdateForm(ModelForm):
     class Meta:
@@ -45,8 +45,10 @@ class PDFDocumentField(forms.FileField):
 
 
 class PDFDocumentForm(forms.ModelForm):
-    local_document = PDFDocumentField()
-
+    local_document = forms.FileField(
+        label='Select a PDF file',
+        help_text='max. 42 megabytes'
+    )
     class Meta:
         model = PDFDocument
         fields = ('name', 'slug', 'pages','thumbnail','local_document',)

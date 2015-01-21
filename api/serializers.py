@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from django.contrib.auth.models import User
 from pdf.models import PDFDocument, Category
 from rest_framework import serializers

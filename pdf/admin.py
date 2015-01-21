@@ -3,12 +3,12 @@ from django.contrib import admin
 from pdf.models import PDFDocument,Category,PDFDocumenttype
 
 class PDFDocumenttypeAdmin(admin.ModelAdmin):
-    list_display=('name', 'color')
+    list_display=('name', 'color',)
     prepopulated_fields = {'slug': ['name',]}
 
 
 class PDFDocumentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'pages')
+    list_display = ('name', 'slug', 'pages','thumbnail','local_document',)
     prepopulated_fields = {'slug': ('name',)}
     list_filter = ('name',)
     search_fields = ('id', 'name', 'description',)
