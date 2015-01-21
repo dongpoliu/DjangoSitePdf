@@ -49,7 +49,7 @@ class PDFDocumentForm(forms.ModelForm):
 
     class Meta:
         model = PDFDocument
-        fields = ('name', 'local_document')
+        fields = ('name', 'slug', 'pages','thumbnail','local_document',)
 
 
 

@@ -14,6 +14,9 @@ from django.template.defaultfilters import slugify
 
 DEFAULT_PATH = os.path.join(settings.MEDIA_ROOT, "uploads")
 UPLOAD_PATH = getattr(settings, "PDF_UPLOAD_PATH", DEFAULT_PATH)
+print "uploaded to"
+print UPLOAD_PATH
+
 
 class Category(models.Model):
     """
@@ -76,7 +79,7 @@ class PDFDocument(models.Model):
     updated_at = models.DateTimeField(auto_now=True, editable=False)    
         
     thumbnail = models.ImageField(upload_to='PDFDocuments', null=True, blank=True)
-    local_document = models.FileField(_("Local Document"), null=True, blank=True, upload_to=UPLOAD_PATH)
+    local_document = models.FileField(upload_to="uploads", null=True, blank=True)
     pages = models.IntegerField(_("Number of Pages in Document"), null=True, blank=True)
     show = models.BooleanField(default=True)    
     

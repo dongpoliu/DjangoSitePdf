@@ -68,6 +68,10 @@
                                 <tr>
                                     <td>Date Submitted</td> <td>{{ pdfdocument.created_at|date:"D d M Y"  }}</td>
                                 </tr>
+                                <tr>
+                                    <td>Read it</td> 
+                                    <td><a href="{{ pdfdocument.local_document.url }}"> {{ pdfdocument.name }}</a></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
